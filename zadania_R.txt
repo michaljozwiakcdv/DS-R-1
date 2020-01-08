@@ -1,0 +1,415 @@
+1. Utwórz skrypt, który wyœwietli w konsoli tekst "Witaj œwiecie". Wykorzystaj tryb interaktywny i tryb wsadowy.
+
+myString <- "Hello, World!"
+print ( myString)
+
+2. Zakomentuj wybrany fragment kodu.
+
+# komentarz
+
+3. Za pomoc¹ funkcji class() sprawdŸ typ nastêpuj¹cych wartoœci: TRUE, FALSE, 12.3, 5, 999, 2L, 34L, 0L, 3 + 2i, 'a' , '"good", "TRUE", '23.4'
+
+4. Za pomoc¹ konstrukcji as.type wykonaj rzutowanie zmiennej typu string na liczbê ca³kowit¹, liczbê zmiennoprzecinkow¹, a nastêpnie wykonaj rzutowanie liczby ca³kowitej i zmiennoprzecinkowej na typ string
+
+5. Utwórz wektor i sprawdŸ jego typ za pomoc¹ funkcji class() oraz liczbê jego sk³adowych za pomoc¹ instrukcji length()
+
+apple <- c('red','green',"yellow")
+print(apple)
+print(class(apple))
+print(length(apple)) 
+
+6. Utwórz i wyœwietl listê
+
+list1 <- list(c(2,5,3),21.3,sin)
+print(list1)
+
+7. Utwórz i wyœwietl macierz
+M = matrix( c('a','a','b','c','b','a'), nrow = 2, ncol = 3, byrow = TRUE)
+print(M)
+
+8. Utwórz i wyœwietl tablicê
+
+a <- array(c('green','yellow'),dim = c(3,3,2))
+print(a)
+
+9. Utwórz i wyœwietl czynnik wektora. SprawdŸ dzia³anie funkcji nlevels.
+
+apple_colors <- c('green','green','yellow','red','red','red','green')
+factor_apple <- factor(apple_colors)
+print(factor_apple)
+print(nlevels(factor_apple))
+
+10. Utwórz i wyœwietl ramkê danych
+BMI <- 	data.frame(
+   gender = c("Male", "Male","Female"), 
+   height = c(152, 171.5, 165), 
+   weight = c(81,93, 78),
+   Age = c(42,38,26)
+)
+print(BMI)
+
+11. Wypróbuj ró¿ne sposoby przypisywania i wyœwietlania zmiennych:
+
+#za pomoc¹ znaku równoœci
+var.1 = c(0,1,2,3)           
+
+#za pomoc¹ lewostronnego operatora przypisania
+var.2 <- c("learn","R")   
+
+#za pomoc¹ prawostronnego operatora przypisania
+c(TRUE,1) -> var.3           
+
+#funkcja print
+print(var.1)
+
+#funkcja cat
+cat ("var.1 is ", var.1 ,"\n")
+cat ("var.2 is ", var.2 ,"\n")
+cat ("var.3 is ", var.3 ,"\n")
+
+12. Wczytaj i wyœwietl dane osobowe wprowadzone przez u¿ytkownika 
+
+name = readline(prompt="Input your name: ")
+age =  readline(prompt="Input your age: ")
+print(paste("My name is",name, "and I am",age ,"years old."))
+
+13. Utwórz skrypt, który bêdzie przyjmowaæ od u¿ytkownika wartoœæ promienia okrêgu, a nastêpnie obliczy i wyœwietli obwód i pole tego okrêgu.
+
+14. Utwórz skrypt, który bêdzie przyjmowaæ od u¿ytkownika wartoœci boków prostok¹ta, a nastêpnie obliczy i wyœwietli pole i obwód tego prostok¹ta.
+
+15. Wyœwietl listê wszystkich wprowadzonych zmiennych za pomoc¹ funkcji ls(). Wykorzystaj argument pattern do ograniczenia wyœwietlanych wyników
+
+print(ls())
+print(ls(pattern = "var")) 
+print(ls(all.name = TRUE))
+
+16. Za pomoc¹ funkcji rm() usuñ wybrane, a nastêpnie wszystkie zmienne
+
+rm(var.3)
+print(var.3)
+
+rm(list = ls())
+print(ls())
+
+17. Utwórz dwa wektory o tym samym wymiarze, a nastêpnie wypróbuj na nich nastêpuj¹ce dzia³ania i nazwij je: +, -, *, /, %%, %/%, ^, 
+
+18. Utwórz dwa wektory o tym samym wymiarze, a nastêpnie wypróbuj na nich nastêpuj¹ce relacje i nazwij je: >, <, ==, <=, >=, !=, 
+
+19. Utwórz dwa wektory o tym samym wymiarze, a nastêpnie wypróbuj na nich nastêpuj¹ce operatory logiczne i nazwij je: &, |, !, &&, ||, 
+
+20. Wypróbuj dzia³anie operatorów specjalnych: %in% - sprawdzenie czy dany element znajduje siê w danym wektorze, %*% - s³u¿y do mno¿enia macierzy i jej transpozycji, : - s³u¿y do tworzenia szeregu liczb o zadanych granicach
+
+v1 <- 8
+v2 <- 12
+t <- 1:10
+print(v1 %in% t) 
+print(v2 %in% t) 
+
+M = matrix( c(2,6,5,1,10,4), nrow = 2,ncol = 3,byrow = TRUE)
+t = M %*% t(M)
+print(t)
+
+v <- 2:8
+print(v) 
+
+21. Za pomoc¹ konstrukcji 
+if(boolean_expression) {
+   statement...
+}
+sprawdŸ czy wprowadzona przez u¿ytkownika liczba jest wiêksza od zera
+
+22. Za pomoc¹ konstrukcji
+if(boolean_expression) {
+   statement...
+} else if {
+   statement...
+} else {
+   statement...
+}
+sprawdŸ czy liczba wprowadzona przez u¿ytkownika jest dodatnia, ujemna, czy równa zeru
+
+23. W klasie przeprowadzono sprawdzian, za który uczniowie mogli otrzymaæ maksymalnie 50 punktów. Skala ocen w szkole jest nastêpuj¹ca: 0-39% - ndst, 40-49% - dop, 50-69% - dst, 70-84% - db, 85-99% - bdb, 100% - cel. Utwórz skrypt z interfejsem tekstowym, który na podstawie podanej liczby punktów ze sprawdzianu wyœwietli ocenê jaka siê nale¿y (skorzystaj z konstrukcji if, else if, else)
+
+24. Podzielmy rok na sezony zgodnie ze schematem miesiêcy 1-3 - zima, 4-6 - wiosna, 7-9 - lato, 10-12 - jesieñ. Utwórz skrypt, który w oparciu o numer miesi¹ca wprowadzony przez u¿ytkownika oreœli do jakiego sezonu nale¿y ów miesi¹c.
+
+25. Za pomoc¹ konstrukcji
+while (test_expression) {
+   statement
+}
+wyœwietl na ekranie 20 razy komunikat "Witaj œwiecie"
+
+26. Za pomoc¹ konstrukcji 
+for (value in vector) {
+   statements
+}
+wyœwietl na ekranie 20 razy komunikat "Witaj œwiecie"
+
+27. Napisz skrypt, który bêdzie wyœwietlaæ wszystkie kolejne dzielniki wprowadzonej liczby
+
+28. Utwórz skrypt z interfejsem tekstowym, który pobierze od u¿ytkownika zdanie i wyœwietli w kolejnych wierszach litery tego zdania w odwróconej kolejnoœci
+
+29. Utwórz skrypt z interfejsem tekstowym, który wyliczy sumê n kolejnych liczb (u¿ytkownik podaje pierwsz¹ i ostatni¹ liczbê sumy)
+
+30. Utwórz skrypt z interfejsem tekstowym, który przyjmie od u¿ytkownika ile elementów chce on wprowadziæ do listy, przyjmie te elementy, a nastêpnie wyliczy ich sumê i œredni¹.
+
+31. Utwórz skrypt z interfejsem tekstowym który obliczy silniê od danego argumentu.
+
+32. Wypróbuj dzia³anie kilku wbudowanych funkcji: seq(32,44), mean(25:82), sum(41:68). Opisz ich dzia³anie
+
+33. Utwórz i wywo³aj funkcjê, która bêdzie wyœwietlaæ sekwencjê kwadratów
+new.function <- function(a) {
+   for(i in 1:a) {
+      b <- i^2
+      print(b)
+   }
+}	
+new.function(6)
+
+34. Wypróbuj dzia³anie tej funkcji bez zadawania argumentów:
+new.function <- function() {
+   for(i in 1:5) {
+      print(i^2)
+   }
+}	
+
+new.function()
+
+35. Utwórz funkcjê o argumentach domyœlnych
+new.function <- function(a = 3, b = 6) {
+   result <- a * b
+   print(result)
+}
+
+new.function()
+
+new.function(9,5)
+
+36. Za pomoc¹ konstrukcji 
+function_name <- function(arg_1, arg_2, ...) {
+   Function body 
+}
+utwórz funkcjê (lub dwie funkcje), która bêdzie przeliczaæ temperatury pomiêdzy skalami Celsjusza i Fahrenheita C = (F-32)x(5/9), F = (C*9/5)+32
+
+37. Utwórz funckjê do zamiany kilometrów na mile i na odwrót
+
+38. Utwórz funckjê do obliczania wybranego elementu ci¹gu Fibonacciego
+
+39. Utwórz funckjê do obliczania wartoœci trójmianu kwadratowego (funkcja jako argument przyjmuje x, a, b, c)
+
+40. Utwórz funkcjê, która bêdzie obliczaæ œredni¹ arytmetyczn¹ dla podanego wektora liczb
+
+41. Utwórz funkcjê, która bêdzie obliczaæ odchylenie standardowe œredniej dla podanego wektora liczb
+
+42. Wypróbuj nastêpuj¹ce sposoby wprowadzania zmiennych typu string:
+a <- 'Start and end with single quote'
+b <- "Start and end with double quotes"
+c <- "single quote ' in between double quotes"
+d <- 'Double quotes " in between single quote'
+e <- 'Mixed quotes" 
+f <- 'Single quote ' inside single quote'
+g <- "Double quotes " inside double quotes"
+Które z nich s¹ poprawne?
+
+43. £¹czenie ³añcuchów znaków odbywa siê za pomoc¹ funkcji paste(..., sep = " ", collapse = NULL), gdzie ... oznacza sekwencjê ³añcuchów do po³¹czenia, sep okreœla za pomoc¹ jakiego znaku maj¹ byæ rozdzielone, natomiast collapse usuwa spacje miêdzy ³añcuchami, ale nie wewn¹trz nich. Przetestuj dzia³anie nastêpuj¹cego skryptu
+
+a <- "Hello"
+b <- 'How'
+c <- "are you? "
+print(paste(a,b,c))
+print(paste(a,b,c, sep = "-"))
+print(paste(a,b,c, sep = "", collapse = ""))
+
+44. Istotnym zagadnieniem jest formatowanie postaci wyniku. Przetestuj dzia³anie nastêpuj¹cych instrukcji:
+result <- format(23.123456789, digits = 9)
+print(result)
+
+result <- format(c(6, 13.14521), scientific = TRUE)
+print(result)
+
+result <- format(23.47, nsmall = 5)
+print(result)
+
+result <- format(6)
+print(result)
+
+result <- format(13.7, width = 6)
+print(result)
+
+result <- format("Hello", width = 8, justify = "l")
+print(result)
+
+result <- format("Hello", width = 8, justify = "c")
+print(result)
+
+45. Zamiana liter w ³añcuchu na wielkie i ma³e odbywa siê za pomoc¹ toupper() i tolower(). SprawdŸ 
+result <- toupper("Changing To Upper")
+print(result)
+
+result <- tolower("Changing To Lower")
+print(result)
+
+46. Wycinanie fragmentu ³añcucha odbywa siê za pomoc¹ funkcji substring(x, pocz¹tek, koniec) gdzie x to wejœciowy ³añcuch, pocz¹tek to pozycja piewszej litery a koniec to pozycja ostatniej litery do wyekstrahowania. SprawdŸ dzia³ania kodu
+
+result <- substring("Extract", 5, 7)
+print(result)
+
+47. W jêzyku nawet pojedyñcza wartoœæ jest traktowana jak wektor. Przyk³ady
+
+print("abc");
+print(12.5)
+print(63L)
+print(TRUE)
+print(2+3i)
+print(charToRaw('hello'))
+
+48. Tworzenie wektorów o wielu sk³adowych - przejrzyj i omów poni¿sze przyk³ady
+
+v <- 5:13
+print(v)
+
+v <- 6.6:12.6
+print(v)
+
+v <- 3.8:11.4
+print(v)
+
+print(seq(5, 9, by = 0.4))
+
+s <- c('apple','red',5,TRUE)
+print(s)
+
+49. Dostêp do sk³adowych wektora odbywa siê za pomoca indeksu zawartego w nawiasie kwadratowym. SprawdŸ poni¿szy kod:
+
+s <- c('apple','red',5,TRUE)
+print(s[1])
+print(s[2])
+print(s[3])
+print(s[4])
+
+50. Do elemetów wektora mo¿na odnosiæ siê za pomoc¹ wektorów indeksów. SprawdŸ i omów dzia³anie poni¿szych instruckji
+
+t <- c("Sun","Mon","Tue","Wed","Thurs","Fri","Sat")
+u <- t[c(2,3,6)]
+print(u)
+
+v <- t[c(TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE)]
+print(v)
+
+x <- t[c(-2,-5)]
+print(x)
+
+y <- t[c(0,0,0,0,0,0,1)]
+print(y)
+
+51. Dzia³ania na wektorach - sprawdŸ dzia³anie nastêpuj¹cych instrukcji
+
+v1 <- c(3,8,4,5,0,11)
+v2 <- c(4,11,0,8,1,2)
+
+add.result <- v1+v2
+print(add.result)
+
+sub.result <- v1-v2
+print(sub.result)
+
+multi.result <- v1*v2
+print(multi.result)
+
+divi.result <- v1/v2
+print(divi.result)
+
+52. Utwórz funckjê, która jako argument przyjmie dwa wektory oraz symbol dzia³ania i zwróci w³aœciwy wynik dzia³ania.
+
+53. SprawdŸ co siê stanie, jeœli dodasz do siebie dwa wektory o ró¿nych d³ugoœciach?
+
+v1 <- c(3,8,4,5,0,11)
+v2 <- c(4,11)
+
+add.result <- v1+v2
+print(add.result)
+
+sub.result <- v1-v2
+print(sub.result)
+
+54. Sortowanie elementów wektora odbywa siê za pomoca funkcji sort(). SprawdŸ dzia³anie nastêpuj¹cych instrukcji
+
+v <- c(3,8,4,5,0,11, -9, 304)
+
+sort.result <- sort(v)
+print(sort.result)
+
+revsort.result <- sort(v, decreasing = TRUE)
+print(revsort.result)
+
+v <- c("Red","Blue","yellow","violet")
+sort.result <- sort(v)
+print(sort.result)
+
+revsort.result <- sort(v, decreasing = TRUE)
+print(revsort.result)
+
+55. Lista mo¿e przechowywaæ ³añcucy znaków, wektory, wartoœci logiczne i liczby. SprawdŸ dzia³anie kodu
+
+list_data <- list("Red", "Green", c(21,32,11), TRUE, 51.23, 119.1)
+print(list_data)
+
+56. Elementom listy mo¿na nazwaæ nazwy (etykiety). SprawdŸ dzia³anie kodu
+
+list_data <- list(c("Jan","Feb","Mar"), matrix(c(3,9,5,1,-2,8), nrow = 2), list("green",12.3))
+names(list_data) <- c("1st Quarter", "A_Matrix", "A Inner list")
+print(list_data)
+
+57. Dostêp do elementów listy mo¿e odbywaæ siê poprzez indeks w nawiasie kwadratowym oraz za pomoc¹ operatora $ oraz nazwy elementu. SprawdŸ dzia³anie kodu
+
+list_data <- list(c("Jan","Feb","Mar"), matrix(c(3,9,5,1,-2,8), nrow = 2), list("green",12.3))
+names(list_data) <- c("1st Quarter", "A_Matrix", "A Inner list")
+print(list_data[1])
+print(list_data[3])
+print(list_data$A_Matrix)
+
+58. Elementy raz zdefiniowanej listy mo¿na podmieniaæ. SprawdŸ dzia³anie instrukcji
+
+list_data <- list(c("Jan","Feb","Mar"), matrix(c(3,9,5,1,-2,8), nrow = 2), list("green",12.3))
+names(list_data) <- c("1st Quarter", "A_Matrix", "A Inner list")
+list_data[4] <- "New element"
+print(list_data[4])
+list_data[4] <- NULL
+print(list_data[4])
+list_data[3] <- "updated element"
+print(list_data[3])
+
+59. Listy mo¿na ³¹czyæ wstawiaj¹c je do jednej listy. SprawdŸ dzia³anie kodu.
+
+list1 <- list(1,2,3)
+list2 <- list("Sun","Mon","Tue")
+
+merged.list <- c(list1,list2)
+
+print(merged.list)
+
+60. Listê mo¿na kowertowaæ na wektor za pomoc¹ instrukcji unlist(). SprawdŸ dzia³anie kodu
+
+list1 <- list(1:5)
+print(list1)
+
+list2 <-list(10:14)
+print(list2)
+
+v1 <- unlist(list1)
+v2 <- unlist(list2)
+
+print(v1)
+print(v2)
+
+result <- v1+v2
+print(result)
+
+61. Napisz program z interfejsem tekstowym, który bêdzie wyœwietlaæ wszystkie dzielniki wprowadzonej przez u¿ytkownika liczby ca³kowitej. 
+
+62. Napisz program z interfejsem tekstowym, który pobierze od u¿ytkownika zestaw danych i obliczy na ich podstawie œredni¹ arytmetyczn¹, medianê, dominantê, odchylenie standardowe, skoœnoœæ i kurtozê.
+
+63. Napisz program z interfejsem tekstowym, który pobierze od u¿ytkowników zestaw danych i wag i obliczy œredni¹ wa¿on¹.
+
+64. Napisz program z interfejsem tekstowym, który pobierze od u¿ytkownika dwa zestawy danych i obliczy wspó³czynnik korelacji Pearsona pomiêdzy nimi.
+
+65. Napisz program z interfejsem tekstowym, który przyjmie dwa zestawy danych i obliczy na ich podstawie wspó³czynniki regresji liniowej. 
