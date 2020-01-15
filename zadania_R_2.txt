@@ -511,4 +511,110 @@ hist(v,xlab = "Weight",col = "green",border = "red", xlim = c(0,40), ylim = c(0,
 # Save the file.
 dev.off()
 
+20. Wykres liniowy w kartezjañskim uk³adzie wspó³rzêdnych wykonujemy za pomoc¹ instrukcji plot(), której sk³adnia jest nastêpuj¹ca:
 
+plot(v,type,col,xlab,ylab)
+gdzie
+v - wektor danych
+type - typ wykresu "p" - punkty, "l" - linia "o" - zarówno linia i punkty
+xlab - etykieta osi x
+ylab - etykieta osi y
+main - nazwa wykresu
+col - zestaw kolorów
+
+Wykonaj poni¿szy przyk³ad
+
+# Tworzymy dane do wykresu
+v <- c(7,12,28,3,41)
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "line_chart.jpg")
+
+# Tworzymy wykres
+plot(v,type = "o")
+
+# Zapisujemy do pliku 
+dev.off()
+
+SprawdŸ co siê stanie, je¿eli poprzedni wariant instrukcji plot() zast¹pisz instrukcj¹ z nastêpuj¹cymi parametrami:
+
+plot(v,type = "o", col = "red", xlab = "Month", ylab = "Rain fall",
+   main = "Rain fall chart")
+
+Poni¿szy przyk³ad pokazuje jak wstawiæ na wykresie wiele linii:
+
+# Create the data for the chart.
+v <- c(7,12,28,3,41)
+t <- c(14,7,6,19,3)
+
+# Give the chart file a name.
+png(file = "line_chart_2_lines.jpg")
+
+# Plot the bar chart.
+plot(v,type = "o",col = "red", xlab = "Month", ylab = "Rain fall", 
+   main = "Rain fall chart")
+
+lines(t, type = "o", col = "blue")
+
+# Save the file.
+dev.off()
+
+21. Wykresy punktowe równie¿ wykonuje siê za pomoca instrukcji plot()
+
+plot(x, y, main, xlab, ylab, xlim, ylim, axes)
+
+gdzie:
+x - dane dla osi poziomej
+y - dane dla osi pionowej
+main - tytu³ wykresu
+xlab - etykieta osi poziomej
+ylab - etykieta osi pionowej
+xlim - zakres osi x
+ylim - zakres osi y
+axes - wskazuje czy obie osie maj¹ byæ rysowane
+
+Przeanalizuj poni¿szy przyk³ad:
+# Wartoœci wejœciowe
+input <- mtcars[,c('wt','mpg')]
+
+# Nazwa pliku wykresu
+png(file = "scatterplot.png")
+
+# Narysuj wykres dla samochodów o wartoœci weight pomiêdzy 2.5 a 5 oraz wartoœci mileage pomiêdzy 15 a 30.
+plot(x = input$wt,y = input$mpg,
+   xlab = "Weight",
+   ylab = "Milage",
+   xlim = c(2.5,5),
+   ylim = c(15,30),		 
+   main = "Weight vs Milage"
+)
+	 
+# Zapisz wykres
+dev.off()
+
+22. Je¿eli dane ze sob¹ koreluj¹, mo¿na to zbadaæ za pomoc¹ wykresu punktowego obu zestawów danych. W R s³u¿y do tego funkcja pairs(). Jej sk³adnia jest nastêpuj¹ca:
+
+pairs(formula, data)
+
+formula - reprezentuje seriê zmiennych u¿ywanych w parach
+data - przedstawia zestaw danych, z którego bêd¹ pobierane zmienne
+
+Przeanalizuj poni¿szy przyk³ad:
+# Nadajemy nazwê wykresowi
+png(file = "scatterplot_matrices.png")
+
+# Wykreœlamy wykres
+
+pairs(~wt+mpg+disp+cyl,data = mtcars,
+   main = "Scatterplot Matrix")
+
+# Zapisujemy do pliku
+dev.off()
+
+23* (7p). Korzystaj¹c z nabytej wiedzy, wejdŸ na stronê GUSu https://bdl.stat.gov.pl/BDL/dane/podgrup/temat, a nastêpnie
+- pobierz dane na temat zgonów w Polsce (Ludnoœæ -> Urodzenia i zgony -> Zgony wg p³ci i wieku)
+- porównaj liczbê zgonów mê¿czyzn i kobiet w woj. Wielkopolskim w latach 2004 - 2018. 
+- jaka by³a œrednia d³ugoœæ ¿ycia Polek i Polaków?
+- jakie jest odchylenie standardowe œredniej d³ugoœci ¿ycia Polek i Polaków?
+- sporz¹dŸ wykres zmian w czasie œredniej d³ugoœci ¿ycia Polek i Polaków w wielkopolsce w latach 2004-2018. 
+ 
