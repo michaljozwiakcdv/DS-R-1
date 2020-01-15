@@ -613,7 +613,7 @@ dev.off()
 
 23* (7p). Korzystaj¹c z nabytej wiedzy, wejdŸ na stronê GUSu https://bdl.stat.gov.pl/BDL/dane/podgrup/temat, a nastêpnie
 - pobierz dane na temat zgonów w Polsce (Ludnoœæ -> Urodzenia i zgony -> Zgony wg p³ci i wieku)
-- porównaj liczbê zgonów mê¿czyzn i kobiet w woj. Wielkopolskim w latach 2004 - 2018. 
+- porównaj liczbê zgonów mê¿czyzn i kobiet w woj. Wielkopolskim w latach 2005, 2010, 2015, 2018. 
 - jaka by³a œrednia d³ugoœæ ¿ycia Polek i Polaków?
 - jakie jest odchylenie standardowe œredniej d³ugoœci ¿ycia Polek i Polaków?
 - sporz¹dŸ wykres zmian w czasie œredniej d³ugoœci ¿ycia Polek i Polaków w wielkopolsce w latach 2004-2018. 
