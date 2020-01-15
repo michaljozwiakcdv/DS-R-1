@@ -4,6 +4,14 @@ myString <- "Hello, World!"
 print(myString)
 cat(myString)
 
+myString1 = "Hello, World!"
+print(myString)
+cat(myString)
+
+"Hello, World!" -> myString2
+print(myString)
+cat(myString)
+
 2. Zakomentuj wybrany fragment kodu.
 
 # komentarz

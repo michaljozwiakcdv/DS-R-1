@@ -1,0 +1,514 @@
+Wczytywanie danych.
+
+1. Przetestuj nastêpuj¹ce instrukcje:
+- Aby sprawdziæ aktualny katalog roboczy:
+
+print(getwd())
+
+- Aby zmieniæ aktualny katalog
+
+setwd("/web/com")
+
+2. Utwórz na dysku katalog, a nastêpnie przejdŸ do niego za pomoc¹ poleceñ setwd i getwd
+
+3. Za pomoc¹ prostego edytora tekstu (notatnik, notepad++) utwórz i zapisz plik csv: 
+
+id,name,salary,start_date,dept
+1,Rick,623.3,2012-01-01,IT
+2,Dan,515.2,2013-09-23,Operations
+3,Michelle,611,2014-11-15,IT
+4,Ryan,729,2014-05-11,HR
+5,Gary,843.25,2015-03-27,Finance
+6,Nina,578,2013-05-21,IT
+7,Simon,632.8,2013-07-30,Operations
+8,Guru,722.5,2014-06-17,Finance
+
+plik nazwij "input.csv"
+
+Nastêpnie wczytaj i wyœwietl dane za pomoc¹ polecenia:
+
+data <- read.csv("input.csv")
+print(data)
+
+4. Analiza pliku csv:
+
+Po wczytaniu danych za pomoc¹ instrukcji 
+
+data <- read.csv("input.csv")
+
+zwróæ wartoœæ maksymalnego wynagrodzenia
+
+sal <- max(data$salary)
+print(sal)
+
+nastêpnie zwróæ rekord odpowiadaj¹cy najlepiej zarabiaj¹cej osobie:
+retval <- subset(data, salary == max(salary))
+print(retval)
+
+zwróæ ludzi pracuj¹cych w dziale IT:
+retval <- subset( data, dept == "IT")
+print(retval)
+
+zwróæ ludzi w dziale IT, których wynagrodzenie jest wiêksze ni¿ 600
+info <- subset(data, salary > 600 & dept == "IT")
+print(info)
+
+zwróæ ludzi, którzy do³¹czyli do firmy po 2014 roku
+retval <- subset(data, as.Date(start_date) > as.Date("2014-01-01"))
+print(retval)
+
+5. Zapis do pliku CSV
+
+Wczytaj dane za pomoc¹ polecenia 
+data <- read.csv("input.csv")
+
+oraz zwróæ lidzi, którzy do³¹czyli do firmy po 2014 roku
+retval <- subset(data, as.Date(start_date) > as.Date("2014-01-01"))
+
+Nastêpnie zapisz do pliku csv zwrócone wynikiL
+write.csv(retval,"output.csv")
+newdata <- read.csv("output.csv")
+print(newdata)
+
+Aby unikn¹æ tworzenia kolumny X skorzystaj z polecenia
+write.csv(retval,"output.csv", row.names = FALSE)
+
+6. Istotnym formatem plików przechowuj¹ce dane jest *.xlsx czyli domyœlny format plików programi MS Excell. Aby R móg³ obs³ugiwaæ tego typu pliki najpierw nale¿y zainstalowaæ odpowiedni pakiet za pomoc¹ polecenia
+install.packages("xlsx")
+
+Aby zweryfikowaæ instalacjê pakietu oraz wczytaæ go, skorzystaj z instrukcji
+any(grepl("xlsx",installed.packages()))
+library("xlsx")
+
+Od tego momentu mo¿esz wczytywaæ dane za pomoc¹ polecenia
+data <- read.xlsx("input.xlsx", sheetIndex = 1)
+print(data)
+
+7. Dane mog¹ byæ równie¿ przechowywane w plikach binarnych, czyli takich, których reprezentacja opiera siê na 0 i 1. 
+
+writeBin(object, con)
+readBin(con, what, n )
+
+con to obiekt po³¹czenia do odczytu lub zapisu pliku binarnego, object to plik binarny, który ma zostaæ zapisany, what to tryb, n jest liczb¹ bajtów do odczytania z pliku binarnego.
+
+8. Zapis do pliku binarnego. Zapiszmy ramkê danych mtcars do pliku binarnego:
+
+#Zapiszmy ramkê danych mtcars do pliku csv, bez nazw wierszy
+write.table(mtcars, file = "mtcars.csv",row.names = FALSE, na = "", col.names = TRUE, sep = ",")
+
+#Wczytujemy do nowej zmienniej dane zapisane w mtcars.csv
+new.mtcars <- read.table("mtcars.csv",sep = ",",header = TRUE,nrows = 5)
+
+#Tworzymy obiekt po³¹czenia pomiêdzy do zapisu pliku binarnego w trybie "wb" 
+write.filename = file("/web/com/binmtcars.dat", "wb")
+
+
+# Zapis nazw kolumn w obiekcie zapisu
+writeBin(colnames(new.mtcars), write.filename)
+
+# Zapis rekordów 
+writeBin(c(new.mtcars$cyl,new.mtcars$am,new.mtcars$gear), write.filename)
+
+# Zamykanie pliku
+close(write.filename)
+
+9. Odczyt pliku binarnego
+
+#Tworzymy obiekt po³¹czenia w trybie "rb"
+read.filename <- file("/web/com/binmtcars.dat", "rb")
+
+#Wczytujemy nazwy pierwszych 3 kolumn, dlatego n=3
+column.names <- readBin(read.filename, character(),  n = 3)
+
+#Nastêpnie odczytujemy wartoœci kolumn. n = 18, poniewa¿ mamy 3 nazwy kolumn i 15 wartoœci.
+read.filename <- file("/web/com/binmtcars.dat", "rb")
+bindata <- readBin(read.filename, integer(),  n = 18)
+print(bindata)
+
+#Odczytujemy wartoœci od 4 do 8 bajtu, który reprezentuje "cylinder".
+cyldata = bindata[4:8]
+print(cyldata)
+
+#Odczytujemy wartoœci od 9 do 13 bajtu, które reprezentuj¹ "am".
+amdata = bindata[9:13]
+print(amdata)
+
+# Odczytujemy wartoœci od 9 do 13 bajtu, które reprezentuj¹ "gear".
+geardata = bindata[14:18]
+print(geardata)
+
+# £¹czymy wszystkie odczytane wartoœci w ramkê danych.
+finaldata = cbind(cyldata, amdata, geardata)
+colnames(finaldata) = column.names
+print(finaldata)
+
+10. Pliki XML
+Kolejnym wa¿nym formatem s¹ pliki XML (rozszerzalny jêzyk znaczników)
+Najpierw nale¿y zainstalowaæ stosowny pakiet
+
+install.packages("XML")
+
+Dalej, potrzebny nam przyk³adowy plik XML. Utwórzmy go i zamieœæmy w nim:
+<RECORDS>
+   <EMPLOYEE>
+      <ID>1</ID>
+      <NAME>Rick</NAME>
+      <SALARY>623.3</SALARY>
+      <STARTDATE>1/1/2012</STARTDATE>
+      <DEPT>IT</DEPT>
+   </EMPLOYEE>
+	
+   <EMPLOYEE>
+      <ID>2</ID>
+      <NAME>Dan</NAME>
+      <SALARY>515.2</SALARY>
+      <STARTDATE>9/23/2013</STARTDATE>
+      <DEPT>Operations</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>3</ID>
+      <NAME>Michelle</NAME>
+      <SALARY>611</SALARY>
+      <STARTDATE>11/15/2014</STARTDATE>
+      <DEPT>IT</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>4</ID>
+      <NAME>Ryan</NAME>
+      <SALARY>729</SALARY>
+      <STARTDATE>5/11/2014</STARTDATE>
+      <DEPT>HR</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>5</ID>
+      <NAME>Gary</NAME>
+      <SALARY>843.25</SALARY>
+      <STARTDATE>3/27/2015</STARTDATE>
+      <DEPT>Finance</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>6</ID>
+      <NAME>Nina</NAME>
+      <SALARY>578</SALARY>
+      <STARTDATE>5/21/2013</STARTDATE>
+      <DEPT>IT</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>7</ID>
+      <NAME>Simon</NAME>
+      <SALARY>632.8</SALARY>
+      <STARTDATE>7/30/2013</STARTDATE>
+      <DEPT>Operations</DEPT>
+   </EMPLOYEE>
+   
+   <EMPLOYEE>
+      <ID>8</ID>
+      <NAME>Guru</NAME>
+      <SALARY>722.5</SALARY>
+      <STARTDATE>6/17/2014</STARTDATE>
+      <DEPT>Finance</DEPT>
+   </EMPLOYEE>
+	
+</RECORDS>
+
+Powy¿szy plik zapisz na dysku z rozszerzeniem *.xml
+
+Wczytajmy zapisany plik:
+
+library("XML")
+library("methods")
+
+result <- xmlParse(file = "input.xml")
+print(result)
+
+Aby uzyskaæ liczbê wêz³ów w pliku XML
+# Wydobywanie korzenia
+rootnode <- xmlRoot(result)
+
+# Znajdowanie liczby wêz³ów w korzeniu
+rootsize <- xmlSize(rootnode)
+
+# Wydruk wyników
+print(rootsize)
+
+#Wyniki pierwszego wêz³a
+print(rootnode[1])
+
+# Pierwszy element z pierwszego wêz³a
+print(rootnode[[1]][[1]])
+
+# Pi¹ty element z pierwszego wêz³a
+print(rootnode[[1]][[5]])
+
+# Drugi element z trzeciego wêz³a
+print(rootnode[[3]][[2]])
+
+Wczytywanie pliku XML do ramki danych:
+library("XML")
+library("methods")
+
+xmldataframe <- xmlToDataFrame("input.xml")
+print(xmldataframe)
+
+11. Pliki JSON. Kolejnym wa¿nym formatem s¹ pliki JSON - Java Script Object Notation
+Zaczynami od instalacji pakietu:
+
+install.packages("rjson")
+
+Tworzymy przyk³adowy plik JSON (zapisz go na dysku z rozszerzeniem *.json)
+
+{ 
+   "ID":["1","2","3","4","5","6","7","8" ],
+   "Name":["Rick","Dan","Michelle","Ryan","Gary","Nina","Simon","Guru" ],
+   "Salary":["623.3","515.2","611","729","843.25","578","632.8","722.5" ],
+   
+   "StartDate":[ "1/1/2012","9/23/2013","11/15/2014","5/11/2014","3/27/2015","5/21/2013",
+      "7/30/2013","6/17/2014"],
+   "Dept":[ "IT","Operations","IT","HR","Finance","IT","Operations","Finance"]
+}
+
+Wczytywanie plików json:
+
+library("rjson")
+result <- fromJSON(file = "input.json")
+print(result)
+
+Zamiana pliku json na ramkê danych
+
+library("rjson")
+result <- fromJSON(file = "input.json")
+json_data_frame <- as.data.frame(result)
+print(json_data_frame)
+
+12. Wczytywanie danych z sieci. Aby wczytaæ dane ze strony internetowej, bêd¹ nam potrzebne pakiety
+install.packages("RCurl")
+install.packages("XML")
+install.packages("stringr")
+install.packages("plyr")
+
+Dane wejœciowe - dane pogodowe dla roku 2015 ze strony https://www.geos.ed.ac.uk/~weather/jcmb_ws/
+
+# Wczytaj url
+url <- "http://www.geos.ed.ac.uk/~weather/jcmb_ws/"
+
+# Zbierz linki dostêpne na stronie
+links <- getHTMLLinks(url)
+
+# Zidentyfikuj tylko te linki, które wskazuj¹ na pliki JCMB 2015. 
+filenames <- links[str_detect(links, "JCMB_2015")]
+
+# Nazwy plików nale¿y przechowywaæ w postaci listy.
+filenames_list <- as.list(filenames)
+
+# Tworzymy funkcjê umo¿liwiaj¹c¹ pobieranie plików poprzez przekazanie listy adresów URL i nazw plików.
+downloadcsv <- function (mainurl,filename) {
+   filedetails <- str_c(mainurl,filename)
+   download.file(filedetails,filename)
+}
+
+# Stosujemy funkcjê l_ply aby zapisaæ pliki do bie¿¹cego katalogu roboczego R.
+l_ply(filenames,downloadcsv,mainurl = "http://www.geos.ed.ac.uk/~weather/jcmb_ws/")
+
+R umo¿liwia równie¿ po³¹czenie z baz¹ danych.
+
+13. Wykres ko³owy wykonuje siê za pomoc¹ instrukcji
+pie(x, labels, radius, main, col, clockwise)
+
+gdzie:
+x - wektor danych do przedstawienia na wykresie
+labels - zestaw nazw
+radius - promieñ ko³a, przyjmuje wartoœci od -1 do 1
+main - tytu³ wykresu
+col - paleta kolorów
+clockwise - parametr logiczny który okreœla orientacjê kompozycji wykresu
+
+Wykonaj nastêpuj¹cy wykres:
+# Utwórz dane do wykresu
+x <- c(21, 62, 10, 53)
+labels <- c("London", "New York", "Singapore", "Mumbai")
+
+# Nadaj nazwê plikowi, który bêdzie przechowywaæ wykres
+png(file = "city.jpg")
+
+# Narysuj wykres
+pie(x,labels)
+
+# Zapisz wykres
+dev.off()
+
+#Aby zmieniæ paletê barw, instrukcjê pie() nalezy wykonaæ z nastêpuj¹cymi argumentami:
+pie(x, labels, main = "City pie chart", col = rainbow(length(x)))
+
+#Aby dodaæ legendê, nale¿y skorzystaæ z instrukcji legend() pod instrukcj¹ pie()
+legend("topright", c("London","New York","Singapore","Mumbai"), cex = 0.8, fill = rainbow(length(x)))
+
+14. Wykres ko³owy 3D
+Aby wykonaæ trójwymiarowy wykres ko³owy, nale¿y skorzystaæ z instrukcji pie3D(). Wypróbuj poni¿szy kod.
+
+#Import biblioteki
+library(plotrix)
+
+#Tworzymy dane
+x <-  c(21, 62, 10,53)
+lbl <-  c("London","New York","Singapore","Mumbai")
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "3d_pie_chart.jpg")
+
+# Tworzymy wykres
+pie3D(x,labels = lbl,explode = 0.1, main = "Pie Chart of Countries ")
+
+# Zapisujemy do pliku
+dev.off()
+
+15. Wykres s³upkowy - wykonujemy je za pomoc¹ polecenia barplot(). Podstawowa sk³adnia barplot(H,xlab,ylab,main, names.arg,col), gdzie:
+H - wektor danych
+xlab - etykieta osi x
+ylab - etykieta osi y
+main - tytu³ wykresu
+names.arg - wektor nazw kolejnych s³upków
+col - kolory s³upków
+
+Wykonaj poni¿szy przyk³ad
+# Tworzymy dane
+H <- c(7,12,28,3,41)
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "barchart.png")
+
+# Rysujemy wykres s³upkowy
+barplot(H)
+
+# Zapisujemy do pliku
+dev.off()
+
+Kolejny przyk³ad z wykorzystaniem dodatkowych parametrów:
+
+Tworzymy dane
+H <- c(7,12,28,3,41)
+M <- c("Mar","Apr","May","Jun","Jul")
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "barchart_months_revenue.png")
+
+# Rysujemy wykres 
+barplot(H,names.arg=M,xlab="Month",ylab="Revenue",col="blue",
+main="Revenue chart",border="red")
+
+# Zaisujemy wykres
+dev.off()
+
+16. Zgrupowany wykres s³upkowy
+Zdarza siê, ¿e posiadamy dane do wykresów s³upkowych które mo¿na przyporz¹dkowaæ do kolejnych wariantów (np. liczba koniet i mê¿czyzn w ró¿nych miastach). Wtedy mo¿emy skorzystaæ z mo¿liwoœci grupowania wykresów s³upkowych. Przeanalizuj poni¿szy przyk³ad:
+
+# Tworzymy wektory danych
+colors = c("green","orange","brown")
+months <- c("Mar","Apr","May","Jun","Jul")
+regions <- c("East","West","North")
+
+# Tworzymy macierz wartoœci
+Values <- matrix(c(2,9,3,11,9,4,8,7,3,12,5,2,8,10,11), nrow = 3, ncol = 5, byrow = TRUE)
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "barchart_stacked.png")
+
+# Tworzymy wykres s³upkowy
+barplot(Values, main = "total revenue", names.arg = months, xlab = "month", ylab = "revenue", col = colors)
+
+# Dodajemy legendê
+legend("topleft", regions, cex = 1.3, fill = colors)
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+17. Wa¿nym typem wykresów sa wykresy œwiecowe, wykorzystywane szczególnie w analizie zmian cen gie³dowych. W R wykonuje siê je za pomoc¹ instrukcji
+boxplot(x, data, notch, varwidth, names, main)
+gdzie:
+x - wektor lub wyra¿enie
+data - dane w formie ramki danych 
+notch - wyciêcie - przyjmuje wartoœci TRUE/FALSE
+varwidth - przyjmuje wartoœci logiczne - TRUE aby narysowaæ szerokoœæ pola proporcjonaln¹ do wielkoœci próbki 
+names - etykiety grupowe, które bêd¹ drukowane pod ka¿dym z bloków tematycznych
+main - tytu³ wykresu
+
+Wykonaj przyk³ad:
+
+#Za³aduj dane:
+input <- mtcars[,c('mpg','cyl')]
+print(head(input))
+
+#Nadaj nazwê plikowi wykresu
+png(file = "boxplot.png")
+
+#Narysuj wykres
+boxplot(mpg ~ cyl, data = mtcars, xlab = "Number of Cylinders",
+   ylab = "Miles Per Gallon", main = "Mileage Data")
+
+#Zapisz wykres
+dev.off()
+
+18. Wykres œwiecowy z wciêciem:
+
+# Nadaj nazwê plikowi wykresu
+png(file = "boxplot_with_notch.png")
+
+# Narysuj wykres
+boxplot(mpg ~ cyl, data = mtcars, 
+   xlab = "Number of Cylinders",
+   ylab = "Miles Per Gallon", 
+   main = "Mileage Data",
+   notch = TRUE, 
+   varwidth = TRUE, 
+   col = c("green","yellow","purple"),
+   names = c("High","Medium","Low")
+)
+# Zapisz wykres
+dev.off()
+
+19. Histogram. Histogramy w R wykonujemy za pomoc¹ instrkcji hist():
+hist(v,main,xlab,xlim,ylim,breaks,col,border)
+
+gdzie
+v - wektor danych
+main - tytu³ wykresu
+col - paleta kolorów wykresu
+border - obwódki s³upków
+xlab - etykieta osi x
+xlim - zakres osi x
+ylim - zakres osi y
+breaks - szerokoœæ s³upków
+
+Przyk³ad:
+# Tworzymy dane
+v <-  c(9,13,21,8,36,22,12,41,31,33,19)
+
+# Nazwa pliku wykresu
+png(file = "histogram.png")
+
+# Tworzymy histogram 
+hist(v,xlab = "Weight",col = "yellow",border = "blue")
+
+# Zapis do pliku
+dev.off()
+
+Poni¿ej przedstawiono przyk³ad ze zmian¹ zakresu osi
+
+# Create data for the graph.
+v <- c(9,13,21,8,36,22,12,41,31,33,19)
+
+# Give the chart file a name.
+png(file = "histogram_lim_breaks.png")
+
+# Create the histogram.
+hist(v,xlab = "Weight",col = "green",border = "red", xlim = c(0,40), ylim = c(0,5),
+   breaks = 5)
+
+# Save the file.
+dev.off()
+
+

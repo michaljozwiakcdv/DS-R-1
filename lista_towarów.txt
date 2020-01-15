@@ -1,0 +1,69 @@
+1. PrzejdŸ do banku danych G³ównego Urzêdu Statystycznego.
+2. Rozwiñ liste CENY -> PRZECIÊTNE CENY DETALICZNE TOWARÓW I US£UG KONSUMPCYJNYCH -> CENY DETALICZNE WYBRANYCH TOWARÓW I US£UG KONSUMPCYJNYCH. Nastêpnie zjedŸ na dó³ strony i kliknij "Dalej".
+.
+.
+.
+3. Na podstawie danych dotycz¹cych wylosowanych towarów i us³ug wykonaj badanie pt. "Zmiana cen detalicznych wybranych towarów i us³ug konsumpcyjnych w Polsce w latach 206-2019". 
+4. Sprawozdanie powinno w jak nalepszy i najbardziej przejrzysty sposób przedstawiaæ zmiany cen wybranych towarów i us³ug z podzia³em na wojewódŸtwa dla lat 2006-2019. Przemyœl jak rozwi¹zaæ problem braku danych dla pewnych roczników. Mo¿esz korzystaæ z dowolnych typów wykresów - s³upkowych, œwiecowych, ko³owych, punktowych, liniowych... Twoje dane powinny byæ opisane miarami œrednimi i miarami dyspersji.
+5. Odpowiedz na pytanie - gdzie i kiedy w zadanych ramach czasowych ¿ycie w Polsce by³o najtañsze a gdzie i kiedy by³o najdro¿sze w odniesieniu do pozosta³ych regionów kraju. 
+
+1. Ry¿
+2. Bu³ka pszenna
+3. Chleb przenno-¿ytni
+4. M¹ka pszenna
+5. Kasza jêczmienna
+6. Miêso wo³owe z koœci¹
+7. Miêso wo³owe bez koœci
+8. Miêso wieprzowe bez koœci
+9. Kurczêta patroszone
+10. Szynka wieprzowa gotowana
+11. Kie³basa suszona
+12. Kie³basa wêdzona
+13. Filety z morszczuka mro¿one
+14. Karp œwie¿y
+15. Mleko krowie spo¿ywcze o zawartoœci t³uszczu 3-3,5% za 1l
+16. Mleko krowie spo¿ywcze o zawartoœci t³uszczu 2-2,5% za 1l
+17. Ser twarogowy pó³t³usty - za 1kg
+18. Ser dojrzewaj¹cy - za 1kg
+19. Œmietana o zawartoœci t³uszczu 18% za 200 g
+20. Jaja kurze œwierze (chów wolnowybiegowy) za 1 szt
+21. Jaja kurze œwierze (chów klatkowy lub œció³kowy) za 1 szt
+22. Mas³o œwie¿e o zawartoœci t³uszczu ok. 82,5% za 200 g
+23. Margaryna za 400 g
+24. Olej rzepakowy produkcji krajowej - za 1l
+25. Jab³ka - za 1 kg
+26. Pomarañcze - za 1 kg
+27. Cytryny - za 1 kg
+28. Marchew - za 1 kg
+29. Cebula - za 1 kg
+30. Ziemniaki - za 1 kg
+31. Cukier bia³y kryszta³ - za 1 kg
+32. Czekolada mleczna - za 100g
+33. Kawa naturalna mielona - za 250g
+34. Herbata czarna, liœciasta - za 100g
+35. Sok jab³kowy - za 1l
+36. Piwo jasne pe³ne, butelkowane - za 0,5l
+37. Papierosy za 20 szt.
+38. Garnitur mêski 2-czêœciowy, z tkaniny z udzia³em we³ny (2) za 1kpl
+39. Koszula mêska z elanobawe³ny, d³ugi rêkaw
+40. Podkoszulek mêski bawe³niany, bez rêkawa
+41. Rajstopy damskie g³adkie, 15 den
+42. Spodnie (6-11 lat) z tkaniny typu jeans (2)
+43. Oczyszczanie chemiczne garnituru mêskiego 2-czêœciowego - za 1kpl
+44. Pó³buty mêskie skórzane na podeszwie nieskórzanej - za 1 parê
+45. Pó³buty damskie skórzane na podeszwie nieskórzanej - za 1 parê
+46. Podzelowanie obuwia mêskiego - za 1 parê
+47. Bateria zlewozmywaka
+48. Zimna woda z miejskiej sieci wodoci¹gowej - za 1m3
+50. Centralne ogrzewanie lokali mieszkalnych za 1 m2 p u
+51. Wêgiel kamienny - za 1t
+52. Ciep³a woda - za 1m3
+53. Proszek do pracnia - za 300 g
+54. Wizyta u lekarza specjalisty
+55. Olej napêdowy - za 1l
+56. Bilet do kina
+57. Myd³o toaletowe
+58. Pasta do zêbów
+59. Gazeta regionalna
+60. Strzy¿enie w³osów mêskich
+
