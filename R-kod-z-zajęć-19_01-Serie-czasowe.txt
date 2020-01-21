@@ -1,0 +1,105 @@
+library(ggplot2)
+#Jak nie ma to trzeba zainstalować
+#install.packages("ggplot2")
+AP_ts=AirPassengers
+plot(AP_ts)# widzimy że dane mają trend i sezonowość
+
+
+# przyjrzyjmy się danym
+class(AP_ts) # dane mają typ serii czasowych
+str(AP_ts)# struktura danych
+#mamy 144 danych. Dane  zaczynają się w 1949 a kończą w 1961
+# jest to 12lat podzielonych na 12 miesięcy  
+start(AP_ts)
+end(AP_ts)
+frequency(AP_ts)
+
+# nanieśmy na wykres trend)
+plot(AP_ts,ylab="Liczba pasażerów")
+abline(lm(AP_ts~time(AP_ts)))
+
+
+#analiza danych
+
+decompose(AP_ts,type = "multiplicative")  #ta komenda rozłoży dane 
+#na składowe 
+#dwa rodzaje dekompozycji (odsyłam do dokumentacji)
+
+#w rezultacie otrzymamy kilka komponentów składowych (trend, sezonowość i element losowy) )
+
+#przedstawmy dekompozycje na wykresie
+AP_deco=decompose(AP_ts,type = "multiplicative")
+plot(AP_deco)
+
+###################################
+Prognozowanie przyszłości
+cycle(AP_ts) #-> każdej obserwacji w cyklu nadaje numer
+
+# pogrupujmy dane po miesiącach i
+#sprawdźmy jak się rozkłada liczba pasażerów w każdym miesiącu
+boxplot(AP_ts~cycle(AP_ts)) 
+# każdy słupek reprezentuje:
+#-wartość minimalną,
+#-wartość oddzielającą 25% najniższych wskazań od reszty
+#-medianę,
+#-wartość oddzielającą 75% najniższych wskazań od reszty
+
+# do tej pory dane nie są stacjonarne (mają trend)
+plot(AP_ts,ylab="Liczba pasażerów")
+#przygotujmy dane do dalszej analizy
+plot(log(AP_ts)) 
+# usuńmy z naszych danych trend  (funkcją diff() 
+#stosujemy tyle razy aż uzyskamy stałą średnią (nie zmienną w czasie ))
+plot(diff(log(AP_ts)))
+
+#możemy teraz przejść do tworzenia modelu 
+#będziemy wykorzystywać model ARIMA
+#Jest to zintegorwanie(I) Regresji(AR) i średniej kroczącej(MA)
+#aby użyć model musimy wyznaczyć 3 parametry 
+#dla AR->p
+#dal I ->d
+#dla MA->q
+# 
+#aby wyznaczyć wartość q musimy zastosować funkcje act()
+acf(diff(log(AP_ts))) # warotość q to numer linii poprzedzającej linie,
+#która przyjmuje wartości ujemne (liczenie zaczynamy od 0)
+# w naszym przypadku q=1
+#wartość p
+pacf(diff(log(AP_ts))) #p =0
+#wartość d
+plot(diff(log(AP_ts))) #funkcję diff()zastosowaliśmy raz więc d =1
+
+# teraz możemy stworzyć model
+
+model=arima(log(AP_ts), c(0,1,1),seasonal=list (order=c(0,1,1),period=12))
+#           nie używamy diff() bo jest podana wartość d=1 w wektorze c(p,d,q)            
+
+#prognozujemy dane na 5 lat do przodu
+model_pred=predict(model,n.ahead = 5*12)
+
+# wynik który otrzymaliśmy dotyczy danych na których zastosowaliśmy funkcję log()
+#Teraz musimy się tego pozbyć z wyniku 
+
+pred1=2.718^model_pred$pred   
+
+ts.plot(AP_ts,pred1,lty=c(1,3))
+
+#ts.plot(AP_ts,AP_pred,log="y",lty=c(1,3))
+
+# przetestujmy model prognozując dane które posiadamy
+#tworzymy nowe dane 
+AP_szkoleniowe=ts(AP_ts,frequency = 12,start=c(1949,1),end=c(1959,12))
+
+model_1=arima(log(AP_szkoleniowe),c(0,1,1),seasonal=list (order=c(0,1,1),period=12) )
+
+AP_pred=predict(model_1,n.ahead = 1*12)
+
+AP_pred=2.718^AP_pred$pred
+AP_pred
+
+AP_pred=round(AP_pred,digit=0)
+#Porównajmy
+AP_ts
+AP_pred
+
+

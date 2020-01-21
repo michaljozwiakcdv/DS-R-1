@@ -1,0 +1,34 @@
+library(ggplot2)
+AP_ts=AirPassengers
+class(AP_ts)
+plot(AP_ts)# widzimy że dane mają trend i sezonowość
+
+
+# przyjrzyjmy się danym
+class(AP_ts) # dane mają tym serii czasowych
+str(AP_ts)# struktura danych
+          #mamy 144 danych, seria zaczyna się w 1949 a kończy w 1961
+          # jest to 12lat podzielonych na 12 miesięcy  
+start(AP_ts)
+end(AP_ts)
+frequency(AP_ts)
+
+# nanieśmy na wykres trend (oszukany sposób wykorzystujemy regresję )
+plot(AP_ts,ylab="Liczba pasażerów")
+abline(lm(AirPassengers~time(AirPassengers)))
+
+
+#analiza danych
+
+decompose(AP_ts,type = "multiplicative")  #ta komenda rozłoży dane 
+                                          #na składowe 
+                #dwa rodzaje dekompozycji (odsyłam do dokumentacji)
+
+#w rezultacie otrzymamy kilka komponentów składowych (trend ,sezonowość i element losowy) )
+
+#przedstawmy dekompozycje na wykresie
+AP_deco=decompose(AP_ts,type = "multiplicative")
+plot(AP_deco)
+
+###################################
+Prognozowanie przyszłości nie wiem czy to robić z nimi ?

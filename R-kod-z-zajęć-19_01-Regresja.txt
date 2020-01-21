@@ -1,0 +1,39 @@
+library(ggplot2)
+
+imput_data=mtcars[,c("mpg","disp","hp","wt")]     #przygotowujemy dane wejściowe
+head(imput_data)
+#podzielmy dane na szkoleniowe i testowe
+# potrzebujemy do tego biblioteki "caTools"
+#install.packages("caTools")
+
+library("caTools")
+
+split=sample.split(imput_data[,"mpg"],SplitRatio = 0.75) #tworzymy wektor podziału
+          #Wskazanie kolumny z wartościami zależnymi 
+#SplitRatio = 0.75 ->ile procent ma być danymi szkoleniowymi
+split
+training_data=subset(imput_data,split==TRUE) #wybieramy dane szkoleniowe
+test_data=subset(imput_data,split==FALSE) #wybieramy dane testowe
+
+# tworzymy model
+model=lm(mpg~disp+hp+wt,data=training_data)
+#mpg zależy liniowo od disp+hp+wt
+summary(model)
+
+# w podsumowaniu mamy kolumnę Pr. Wartość p informuje nas w jakim stopniu dana wielkość wpływa na wynik
+#im p jest mniejsze tym lepiej. Przyjmuje się że wielkości dla których P <=0.05 mają znaczący wpływ
+#statystyczny
+
+#sprawdźmy jak model będzie działał przewidywał wartość mpg
+mpg_pred=predict(model,test_data)
+test_data$mpg_pred=mpg_pred	#dodajemy wartości które wskazał model
+summary(model)
+
+#wykres poniżej przedstawia dane które model przewidział (czerwone) 
+#i dane które znaliśmy (niebieski)
+
+nrow(test_data)
+ggplot(test_data)+
+  geom_point(mapping=aes(x=c(1:8),y=mpg),color="blue")+
+  geom_point(mapping=aes(x=c(1:8),y=mpg_pred),color="red")
+
