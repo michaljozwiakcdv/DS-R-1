@@ -1,0 +1,164 @@
+1. Szereg czasowy to szereg punktów danych, w którym ka¿dy jest powi¹zany ze znacznikiem czasu. Prostym przyk³adem jest cena akcji na gie³dzie w ró¿nych punktach czasowych w danym dniu. Innym przyk³adem jest iloœæ opadów w danym regionie w ró¿nych miesi¹cach roku. Jêzyk R udostêpnia wiele funkcji do tworzenia, manipulowania i wykreœlania szeregów czasowych. Dane dla danego szeregu czasowego s¹ przechowywane w specjalnym obiekcie, którym mo¿e byæ równie¿ wektor lub ramka danych. 
+
+Obiekt szeregu czasowego jest wytworzony przy pomocy polecenia ts().
+
+timeseries.object.name <-  ts(data, start, end, frequency)
+
+gdzie data to wektor lub macierz zawieraj¹ca wartoœci danego szeregu, start okreœla poczatkowy punkt szeregu, end okreœla koñcowy punkt szeregu, frequency okreœla liczbê obserwacji na jednostkê czasu, pewne wartoœci odpowiadaj¹ podzia³owi roku (12 dzieli rok na miesi¹ce, 4 dzieli rok na kwarta³y, 6 dzieli dane na przedzia³y co 10 minut w godzinie, 24*6 dzieli ka¿dy dzieñ na przedzia³y co 10 minut)
+
+Rozwa¿my dane dotycz¹ce rocznych opadów w pewnym miejscu pocz¹wszy od stycznia 2012 r. Tworzymy obiekt szeregu czasowego dla okresu 12 miesiêcy i wykreœlamy go.
+
+#Tworzymy dane
+rainfall <- c(799,1174.8,865.1,1334.6,635.4,918.5,685.5,998.6,784.2,985,882.8,1071)
+
+#Zamieniamy je na szereg czasowy
+rainfall.timeseries <- ts(rainfall,start = c(2012,1),frequency = 12)
+
+#Wyœwietlamy dane
+print(rainfall.timeseries)
+
+#Nadajemy nazwê do pliku wykresu
+png(file = "rainfall.png")
+
+#Robimy wykres
+plot(rainfall.timeseries)
+
+#Zapisujemy do pliku
+dev.off()
+
+2. Mo¿emy wykreœliæ wiele szeregów czasowych na jednym wykresie, ³¹cz¹c obie serie w jedn¹ macierz.
+
+# Tworzymy dane
+rainfall1 <- c(799,1174.8,865.1,1334.6,635.4,918.5,685.5,998.6,784.2,985,882.8,1071)
+rainfall2 <- c(655,1306.9,1323.4,1172.2,562.2,824,822.4,1265.5,799.6,1105.6,1106.7,1337.8)
+
+# Zamieniamy na macierz
+combined.rainfall <-  matrix(c(rainfall1,rainfall2),nrow = 12)
+
+# Zamieniamy na przebieg czasowy
+rainfall.timeseries <- ts(combined.rainfall,start = c(2012,1),frequency = 12)
+
+# Wyœwietlamy przebieg czasowy
+print(rainfall.timeseries)
+
+# Nadajemy nazwê plikowi wykresu
+png(file = "rainfall_combined.png")
+
+# Wykreœlamy wykres
+plot(rainfall.timeseries, main = "Multiple Time Series")
+
+# Zapisujemy do pliku
+dev.off()
+
+3. Analiza danych lotniczych:
+
+library(ggplot2)
+#Jak nie ma to trzeba zainstalowaæ 
+#install.packages("ggplot2")
+
+AP_ts=AirPassengers
+plot(AP_ts)# widzimy ¿e dane maj¹ trend i sezonowoœæ
+
+# przyjrzyjmy siê danym
+class(AP_ts) # dane maj¹ typ serii czasowych
+str(AP_ts) # struktura danych
+
+#mamy 144 danych. Dane  zaczynaj¹ siê w 1949 a koñcz¹ w 1961 jest to 12lat podzielonych na 12 miesiêcy  
+
+start(AP_ts)
+end(AP_ts)
+frequency(AP_ts)
+
+# nanieœmy na wykres trend)
+plot(AP_ts,ylab="Liczba pasa¿erów")
+abline(lm(AP_ts~time(AP_ts)))
+
+#analiza danych
+
+decompose(AP_ts,type = "multiplicative")  #ta komenda roz³o¿y dane 
+#na sk³adowe dwa rodzaje dekompozycji (odsy³am do dokumentacji)
+
+#w rezultacie otrzymamy kilka komponentów sk³adowych (trend, sezonowoœæ i element losowy) )
+
+#przedstawmy dekompozycje na wykresie
+AP_deco=decompose(AP_ts,type = "multiplicative")
+plot(AP_deco)
+
+#Prognozowanie przysz³oœci
+cycle(AP_ts) #-> ka¿dej obserwacji w cyklu nadaje numer
+
+# pogrupujmy dane po miesi¹cach i
+#sprawdŸmy jak siê rozk³ada liczba pasa¿erów w ka¿dym miesi¹cu
+
+boxplot(AP_ts~cycle(AP_ts)) 
+
+# ka¿dy s³upek reprezentuje:
+#-wartoœæ minimaln¹,
+#-wartoœæ oddzielaj¹c¹ 25% najni¿szych wskazañ od reszty
+#-medianê,
+#-wartoœæ oddzielaj¹c¹ 75% najni¿szych wskazañ od reszty
+
+# do tej pory dane nie s¹ stacjonarne (maj¹ trend)
+
+plot(AP_ts,ylab="Liczba pasa¿erów")
+
+#przygotujmy dane do dalszej analizy
+
+plot(log(AP_ts)) 
+
+# usuñmy z naszych danych trend  (funkcj¹ diff() 
+#stosujemy tyle razy a¿ uzyskamy sta³¹ œredni¹ (nie zmienn¹ w czasie ))
+
+plot(diff(log(AP_ts)))
+
+#mo¿emy teraz przejœæ do tworzenia modelu 
+#bêdziemy wykorzystywaæ model ARIMA
+#Jest to zintegorwanie(I) Regresji(AR) i œredniej krocz¹cej(MA)
+#aby u¿yæ model musimy wyznaczyæ 3 parametry 
+#dla AR->p
+#dal I ->d
+#dla MA->q
+# 
+#aby wyznaczyæ wartoœæ q musimy zastosowaæ funkcje act()
+acf(diff(log(AP_ts))) # warotoœæ q to numer linii poprzedzaj¹cej linie,
+#która przyjmuje wartoœci ujemne (liczenie zaczynamy od 0)
+# w naszym przypadku q=1
+#wartoœæ p
+pacf(diff(log(AP_ts))) #p =0
+#wartoœæ d
+plot(diff(log(AP_ts))) #funkcjê diff()zastosowaliœmy raz wiêc d =1
+
+# teraz mo¿emy stworzyæ model
+
+model=arima(log(AP_ts), c(0,1,1),seasonal=list (order=c(0,1,1),period=12))
+#           nie u¿ywamy diff() bo jest podana wartoœæ d=1 w wektorze c(p,d,q)            
+
+#prognozujemy dane na 5 lat do przodu
+model_pred=predict(model,n.ahead = 5*12)
+
+# wynik który otrzymaliœmy dotyczy danych na których zastosowaliœmy funkcjê log()
+#Teraz musimy siê tego pozbyæ z wyniku 
+
+pred1=2.718^model_pred$pred   
+
+ts.plot(AP_ts,pred1,lty=c(1,3))
+
+#ts.plot(AP_ts,AP_pred,log="y",lty=c(1,3))
+
+# przetestujmy model prognozuj¹c dane które posiadamy
+#tworzymy nowe dane 
+AP_szkoleniowe=ts(AP_ts,frequency = 12,start=c(1949,1),end=c(1959,12))
+
+model_1=arima(log(AP_szkoleniowe),c(0,1,1),seasonal=list (order=c(0,1,1),period=12) )
+
+AP_pred=predict(model_1,n.ahead = 1*12)
+
+AP_pred=2.718^AP_pred$pred
+AP_pred
+
+AP_pred=round(AP_pred,digit=0)
+#Porównajmy
+AP_ts
+AP_pred
+
+4* (7p). Za pomoc¹ pakietu R oraz korzystaj¹c ze Ÿróde³ internetowych spróbuj po³aczyæ siê z danymi gie³dowymi zawartymi na stronie https://info.bossa.pl/index.jsp?layout=mstock&page=1&news_cat_id=706&dirpath=/forex/mstock/sesjafx (lub pobierz je rêcznie) i wykonaj analizê szeregu czasowego wyceny wybranego instrumentu (np. akcji wybranej spó³ki) z okresu od 1 do 21 stycznia 2020.  
