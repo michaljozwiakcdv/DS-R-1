@@ -1,0 +1,244 @@
+Pakiet R zawiera ca³e bogactwo gotowych funkcji statystycznych. Zapoznajmy siê z kilkoma:
+1. Œrednia - t¹ wielkoœæ obliczamy za pomoc¹ funkcji mean(), której sk³adnia jest nastêpuj¹ca:
+
+mean(x, trim = 0, na.rm = FALSE, ...)
+
+gdzie x to wejœciowy wektor danych, trim jest u¿ywany do opuszczania niektórych obserwacji z obu koñców posortowanego wektora, na.rm jest u¿ywany do usuwania brakuj¹cych wartoœci z wektora wejœciowego.
+
+Przeanalizuj poni¿szy przyk³ad:
+
+#Tworzymy wektor danych 
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+
+#Szukamy œredniej
+result.mean <- mean(x)
+print(result.mean)
+
+2. Wykorzystanie parametru trim.
+Po podaniu parametru trim, elementy waktora s¹ sortowane, a nastêpnie zadana liczba obserwacji jest odrzucana z obliczeñ œredniej. Przeanalizuj poni¿szy przyk³ad i odpowiedz na pytanie jak dok³adnie dzia³a parametr trim?
+
+#Tworzymy wektor danych
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+
+#Szukamy œredniej
+result.mean <-  mean(x,trim = 0.3)
+print(result.mean)
+
+3. Stosowanie opcji NA. Je¿eli w danych brakuje jakiejœ wartoœci, to œrednia funkcja zwraca NA.
+Aby usun¹æ brakuj¹ce wartoœci z obliczeñ u¿yj na.rm = TRUE co spowoduje usuniêcie wartoœci NA.
+
+#Tworzymy wektor danych 
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5,NA)
+
+#Szukamy œredniej
+result.mean <-  mean(x)
+print(result.mean)
+
+#Szukamy œredniej omijaj¹c wartoœci NA
+result.mean <-  mean(x,na.rm = TRUE)
+print(result.mean)
+
+4. Mediana - aby j¹ policzyæ, korzystamy z funkcji median(), o nastêpuj¹cej sk³adni:
+
+median(x, na.rm = FALSE)
+
+gdzie x to wektor danych wejœciowych, natomiast na.rm umo¿liwia na usuwanie niedostêpnych wartoœci.
+
+Przeanalizuj poni¿szy przyk³ad:
+
+#Tworzymy wektor z danymi
+x <- c(12,7,3,4.2,18,2,54,-21,8,-5)
+
+#Szukamy mediany
+median.result <- median(x)
+print(median.result)
+
+5. Moda (dominanta) to obserwacja, która ma najwiêksz¹ liczbê wyst¹pieñ w zbiorze danych. Inaczej ni¿ œrednia i mediana, moda mo¿e przyjmowaæ zarówno dane liczbowe jak i znakowe.
+
+R nie posiada standardowej wbudowanej funkcji do obliczania mody. Tworzymy wiêc funkcjê u¿ytkownika do obliczania trybu zbioru danych w R. Funkcja ta pobiera wektor jako wejœcie i podaje wartoœæ mody jako wyjœcie.
+
+Przeanalizuj ponizszy przyk³ad:
+
+#Tworzymy w³asn¹ funkcjê 
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+#Tworzymy wektor liczb
+v <- c(2,1,2,3,1,2,3,4,1,5,5,3,2,3)
+
+#Obliczamy modê korzystaj¹c z utworzonej funkcji
+result <- getmode(v)
+print(result)
+
+#Tworzymy wejœciowy wektor zawieraj¹cy zmienne znakowe
+charv <- c("o","it","the","it","it")
+
+#Obliczamy modê korzystaj¹c z utworzonej funkcji
+result <- getmode(charv)
+print(result)
+
+6. Regresja. Analiza regresji jest bardzo szeroko stosowanym narzêdziem statystycznym do ustalenia modelu zale¿noœci miêdzy dwoma zmiennymi. Jedna z tych zmiennych nazywana jest zmienn¹ niezale¿n¹, której wartoœæ gromadzona jest poprzez eksperymenty. Druga zmienna nazywana jest zmienn¹ zale¿n¹, której wartoœæ zale¿y od zmiennej niezale¿nej.
+
+W regresji liniowej te dwie zmienne s¹ powi¹zane za pomoc¹ równania, gdzie wyk³adnik (potêga) obu tych zmiennych wynosi 1. Matematycznie relacja liniowa reprezentuje liniê prost¹, gdy wykreœlona jest jako wykres. Relacja nieliniowa, w której wyk³adnik dowolnej zmiennej nie jest równy 1, tworzy krzyw¹.
+
+Ogólnym równaniem matematycznym dla regresji liniowej jest y = ax + b
+
+Rozwa¿my nastêpuj¹ce dane:
+
+# Wartoœci wzrostu
+151, 174, 138, 186, 128, 136, 179, 163, 152, 131
+
+# Wartoœci wagi
+63, 81, 56, 91, 47, 57, 76, 72, 62, 48
+
+i znajdŸmy dla nich wspó³czynniki regresji liniowej:
+
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+
+# Postulujemy charakter relacji pomiêdzy zmiennymi (zak³adamy, ¿e y zalezy od x). Jako model relacji przyjmujemy zale¿noœæ liniow¹ za pomoc¹ funkcji lm()
+
+relation <- lm(y~x)
+
+print(relation)
+
+Aby uzyskaæ podsumowanie, mo¿emy skorzystaæ z funkcji:
+
+print(summary(relation))
+
+7. Zastosowanie funkcji predict(). Zadanie - przewidzieæ wagê nowej osoby na podstawie jej wzrostu. Aby tego dokonaæ skorzystamy z funkcji predict() o nastêpuj¹cej sk³adni:
+
+predict(object, newdata)
+
+gdzie obiekt jest formu³¹ wytworzon¹ przy pomocy funkcji lm(), newdata jest wektorem zawieraj¹cym now¹ wartoœæ dla zmiennej niezale¿nej.
+
+
+#Wektor zmiennej niezale¿nej
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+
+#Wektor zmiennej zale¿nej
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+
+#Postulowanie relacji
+relation <- lm(y~x)
+
+#Wyznaczanie wagi osoby o wzroœcie 170
+a <- data.frame(x = 170)
+result <-  predict(relation,a)
+print(result)
+
+8. Wizualizacja graficzna. Poni¿szy przyk³ad pokazuje jak przedstawiæ na wykresie wyniki badañ:
+
+#Tworzymy wektory danych
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48)
+relation <- lm(y~x)
+
+#Tworzymy plik przechowuj¹cy nasz wykres
+png(file = "linearregression.png")
+
+#Rysujemy wykres
+plot(y,x,col = "blue",main = "Height & Weight Regression",
+abline(lm(x~y)),cex = 1.3,pch = 16,xlab = "Weight in Kg",ylab = "Height in cm")
+
+#Zapisujemy do pliku
+dev.off()
+
+9. Regresja wielokrotna jest rozszerzeniem regresji liniowej na relacje pomiêdzy wiêcej ni¿ dwoma zmiennymi. W prostej relacji liniowej mamy jedn¹ zmienn¹ niezale¿n¹  i jedn¹ zmienn¹ zale¿n¹, ale w regresji wielokrotnej mamy wiêcej ni¿ jedn¹ zmienn¹ niezale¿n¹ i jedn¹ zmienn¹ zale¿n¹.
+
+Ogólne równanie matematyczne dla regresji wielokrotnej to - y = a + b1x1 + b2x2 +...bnxn
+
+Podstawowa sk³adnia dla regresji wielokrotnej jest nastêpuj¹ca:
+
+lm(y ~ x1+x2+x3...,data)
+
+gdzie najpierw podajemy charakter zale¿noœci wielowymiarowej, a nastêpnie dane. 
+
+Rozwa¿my zestaw danych "mtcars" dostêpny w œrodowisku R. Daje on porównanie ró¿nych modeli samochodów pod wzglêdem przebiegu na galon (mpg), wypornoœci cylindra ("disp"), mocy w KM ("hp"), masy samochodu ("wt") i kilku innych parametrów.
+
+Celem modelu jest ustalenie zale¿noœci miêdzy "mpg" jako zmienn¹ zale¿n¹, a "disp", "hp" i "wt" jako zmiennymi niezale¿nymi. W tym celu tworzymy podzbiór tych zmiennych z zestawu danych mtcars.
+
+input <- mtcars[,c("mpg","disp","hp","wt")]
+print(head(input))
+
+#Tworzymy model relacji
+model <- lm(mpg~disp+hp+wt, data = input)
+
+#Prezentujemy model
+print(model)
+
+#Pokazujemy wspó³czynniki
+cat("# # # # The Coefficient Values # # # ","\n")
+
+a <- coef(model)[1]
+print(a)
+
+Xdisp <- coef(model)[2]
+Xhp <- coef(model)[3]
+Xwt <- coef(model)[4]
+
+print(Xdisp)
+print(Xhp)
+print(Xwt)
+
+10. Analiza danych mtcars - drugie podejœcie. 
+
+# Analizê mo¿na wykonaæ w nieco inny sposób. Poni¿ej alternatywna œcie¿ka analizy.
+# Projekt zaczniemy od zainstalowania pakietu s³u¿¹cego do budowania wykresów - ggplot2:
+
+install.packages("ggplot2")
+library(ggplot2)
+
+#przygotowujemy dane wejœciowe
+input_data=mtcars[,c("mpg","disp","hp","wt")]    
+head(imput_data)
+
+# Dzielimy dane na szkoleniowe i testowe potrzebujemy do tego biblioteki "caTools"
+
+install.packages("caTools")
+
+library("caTools")
+
+split=sample.split(input_data[,"mpg"],SplitRatio = 0.75) #tworzymy wektor podzia³u
+          #Wskazanie kolumny z wartoœciami zale¿nymi 
+
+#SplitRatio = 0.75 ->ile procent ma byæ danymi szkoleniowymi
+
+split
+training_data=subset(input_data,split==TRUE) #wybieramy dane szkoleniowe
+test_data=subset(input_data,split==FALSE) #wybieramy dane testowe
+
+# tworzymy model
+model=lm(mpg~disp+hp+wt,data=training_data)
+
+#mpg zale¿y liniowo od disp+hp+wt
+
+summary(model)
+
+# W podsumowaniu mamy kolumnê Pr. Wartoœæ p informuje nas w jakim stopniu dana wielkoœæ wp³ywa na wynik im p jest mniejsze tym lepiej. Przyjmuje siê ¿e wielkoœci dla których P <=0.05 maj¹ znacz¹cy wp³yw statystyczny
+
+# SprawdŸmy jak model bêdzie dzia³aæ i czy bêdzie poprawnie przewidywaæ wartoœæ mpg
+
+mpg_pred=predict(model,test_data)
+test_data$mpg_pred=mpg_pred	#dodajemy wartoœci które wskaza³ model
+summary(model)
+
+# wykres poni¿ej przedstawia dane które model przewidzia³ (czerwone) i dane które znaliœmy (niebieski)
+
+nrow(test_data)
+ggplot(test_data)+
+  geom_point(mapping=aes(x=c(1:8),y=mpg),color="blue")+
+  geom_point(mapping=aes(x=c(1:8),y=mpg_pred),color="red")
+
+11* (7p). Wykonaj badanie i sporz¹dŸ raport na temat zale¿noœci ceny mieszkañ od ich poszczególnych cech. Korzystaj z wiedzy zawartej w plikach z poprzednich zajêæ oraz z w³asnych umiejêtnoœci. Mo¿esz najpierw przeanalizowaæ artyku³ zamieszczony pod adresem: 
+
+https://medium.com/@aqureshi/multiple-linear-regression-using-r-to-predict-housing-prices-c1ba7fe1674a 
+
+Je¿eli nie bêdziesz rozumieæ treœci napisanych po angielsku, posi³kuj siê translatorem deepL: 
+https://www.deepl.com/translator 
+
+Dane znajduj¹ siê w pliku AmesHousing.csv.
+
+
