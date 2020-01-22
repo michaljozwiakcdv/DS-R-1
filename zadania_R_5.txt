@@ -1,0 +1,141 @@
+1. Rozk³ad normalny.
+W przypadku losowego gromadzenia danych z niezale¿nych Ÿróde³ obserwuje siê na ogó³, ¿e rozk³ad danych jest normalny (gaussowski). Oznacza to, ¿e po wykreœleniu wykresu z wartoœci¹ zmiennej w osi poziomej i zliczeniu wartoœci w osi pionowej otrzymujemy krzyw¹ kszta³tu dzwonu. Œrodek krzywej reprezentuje œredni¹ zestawu danych. Na wykresie, piêædziesi¹t procent wartoœci le¿y po lewej stronie œredniej, a pozosta³e piêædziesi¹t procent po prawej stronie wykresu. W statystyce jest to tzw. rozk³ad normalny.
+
+R posiada cztery wbudowane funkcje do generowania rozk³adu normalnego. S¹ one opisane poni¿ej.
+
+dnorm(x, mean, sd)
+pnorm(x, mean, sd)
+qnorm(p, mean, sd)
+rnorm(n, mean, sd)
+
+gdzie x to wektor danych, p to prawdopodobieñstwo, n to liczba obserwacji, mean to œrednia a sd to odchylenie standardowe. 
+
+2. Funkcja dnorm()
+Funkcja ta zwraca wysokoœæ rozk³adu prawdopodobieñstwa w ka¿dym punkcie dla danej œredniej i odchylenia standardowego.
+
+Przeabalizuj poni¿szy przyk³ad:
+
+# Tworzymy sekwencjê liczb od -10 do 10 z krokiem co 0.1
+x <- seq(-10, 10, by = .1)
+
+# Ustawiamy œredni¹ na 2.5 oraz odchylenie standardowe na 0.5.
+y <- dnorm(x, mean = 2.5, sd = 0.5)
+
+# Nadajemy nazwê wykresowi
+png(file = "dnorm.png")
+
+plot(x,y)
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+3. Funkcja pnorm()
+Funkcja ta zwraca prawdopodobieñstwo, ¿e liczba wylosowana zgodnie z rozk³adem normalnym bêdzie mniejsza od wartoœci danej liczby. Jest ona równie¿ nazywana "funkcj¹ rozk³adu skumulowanego".
+
+Przeanalizuj nastêpuj¹cy przyk³ad:
+
+# Tworzymy sekwencjê liczb od -10 do 10 z krokiem co 0.2.
+x <- seq(-10,10,by = .2)
+ 
+# Ustawiamy œredni¹ na 2.5 oraz odchylenie standardowe na 2. 
+y <- pnorm(x, mean = 2.5, sd = 2)
+
+# Nadajemy nazwê wykresowi
+png(file = "pnorm.png")
+
+# Tworzymy wykres
+plot(x,y)
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+4. Funkcja qnorm().
+Funkcja ta przyjmuje wartoœæ prawdopodobieñstwa i podaje liczbê, której skumulowana wartoœæ odpowiada wartoœci prawdopodobieñstwa.
+
+Przeanalizuj poni¿szy przyk³ad
+# Tworzymy sekwencjê od 0 do 1 z krokiem 0.02
+x <- seq(0, 1, by = 0.02)
+
+# Ustawiamy œredni¹ na 2 ora odchylenie standardowe na 3.
+y <- qnorm(x, mean = 2, sd = 1)
+
+# Nadajemy nazwê rysunkowi
+png(file = "qnorm.png")
+
+# Tworzymy wykres
+plot(x,y)
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+5. Funkcja rnorm()
+Funkcja ta s³u¿y do generowania liczb losowych, których rozk³ad jest normalny. Przyjmuje wielkoœæ próbki jako wartoœæ wejœciow¹ i generuje dok³adnie tyle liczb losowych. Mo¿emy narysowaæ histogram, który poka¿e rozk³ad wygenerowanych liczb.
+
+# Tworzymy próbê 50 losowych liczb
+y <- rnorm(50)
+
+# Nadajemy nazwê wykresowi
+png(file = "rnorm.png")
+
+# Rysujemy histogram
+hist(y, main = "Normal DIstribution")
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+6. Rozk³ad dwumianowy:
+Rozk³ad dwumianowy zajmuje siê znalezieniem prawdopodobieñstwa powodzenia zdarzenia, które ma tylko dwa mo¿liwe wyniki w serii eksperymentów. Na przyk³ad, rzucenie monet¹ zawsze daje or³a albo reszkê. Prawdopodobieñstwo znalezienia dok³adnie 3 or³ów podczas wielokrotnego rzucania monet¹ 10 razy jest szacowane za pomoc¹ rozk³adu dwumianowego.
+
+R posiada cztery wbudowane funkcje do generowania rozk³adu dwumianowego. S¹ one opisane poni¿ej.
+
+dbinom(x, size, prob)
+pbinom(x, size, prob)
+qbinom(p, size, prob)
+rbinom(n, size, prob)
+
+gdzie x to wektor danych, p to wektor prawdopobobieñstw, n to liczba obserwacji, size to liczba prób, prob to prawdopodobieñstwo sukcesu w ka¿dej próbie.
+
+7. Funckja dbinom()
+Funkcja ta daje rozk³ad gêstoœci prawdopodobieñstwa w ka¿dym punkcie.
+Przeanalizuj poni¿szy przyk³ad:
+
+#Tworzymy sekwencjê 50 liczb z krokiem co 1
+x <- seq(0,50,by = 1)
+
+# Generujemy rozk³ad dwumianowy
+y <- dbinom(x,50,0.5)
+
+# Nadajemy nazwê wykresowi
+png(file = "dbinom.png")
+
+# Rysujemy wykres
+plot(x,y)
+
+# Zapisujemy wykres do pliku
+dev.off()
+
+8. Funkcja pbinom()
+Funkcja ta daje skumulowane prawdopodobieñstwo wyst¹pienia zdarzenia. Jest to pojedyncza wartoœæ reprezentuj¹ca prawdopodobieñstwo.
+
+# Prawdopodobieñstwo uzyskania 26 lub mniej or³ów z 51 rzutów monet¹.
+x <- pbinom(26,51,0.5)
+
+print(x)
+
+9. Funkcja qbinom()
+Funkcja ta przyjmuje wartoœæ prawdopodobieñstwa i podaje liczbê, której skumulowana wartoœæ odpowiada wartoœci prawdopodobieñstwa.
+
+# Ile or³ów bêdzie mia³o prawdopodobieñstwo realizacji 0,25, gdy moneta zostanie rzucona 51 razy.
+x <- qbinom(0.25,51,1/2)
+
+print(x)
+
+10. Funkcja rbinom()
+Funkcja ta generuje wymagan¹ liczbê wartoœci losowych o danym prawdopodobieñstwie z danej próbki.
+
+Live Demo
+# ZnajdŸ 8 losowych wartoœci z próby 150 z prawdopodobieñstwem 0,4.
+x <- rbinom(8,150,.4)
+
+print(x)
+

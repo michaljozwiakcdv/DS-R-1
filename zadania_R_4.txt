@@ -1,0 +1,66 @@
+1. Analizê regresji wykorzystujemy do tworzenia modeli opisuj¹cych wp³yw zmiennoœci zmiennych niezaleznych (predykcyjnych) na zmienne zale¿ne (odpowiedzi). Czasami, jeœli mamy zmienn¹ kategoryczn¹ o takich wartoœciach jak Tak/Nie lub Mê¿czyzna/Kobieta itp. prosta analiza regresji daje wiele wyników dla ka¿dej wartoœci zmiennej kategorycznej. W takim scenariuszu mo¿emy zbadaæ wp³yw zmiennej kategorycznej, u¿ywaj¹c jej wraz ze zmienn¹ prognostyczn¹ i porównuj¹c linie regresji dla ka¿dego poziomu zmiennej kategorycznej. Taka analiza nazywana jest Analiz¹ Kowariancji, zwan¹ równie¿ ANCOVA.
+
+Rozwa¿my wbudowany w œrodowisko R zestaw danych mtcars. Widzimy w nim, ¿e pole "am" reprezentuje typ transmisji (automatyczna lub rêczna). Jest to zmienna kategoryczna o wartoœciach 0 i 1, od której oprócz wartoœci mocy w KM ("hp") mo¿e zale¿eæ tak¿e wartoœæ mil na galon (mpg) samochodu.
+
+Badamy wp³yw wartoœci "am" na regresjê pomiêdzy "mpg" i "hp". Robi siê to za pomoc¹ funkcji aov(), po której nastêpuje funkcja anova(), aby porównaæ wielokrotne regresje.
+
+2. Utwórzmy ramkê danych zawieraj¹c¹ pola "mpg", "hp" i "am" z zestawu danych mtcars. Tutaj przyjmujemy "mpg" jako zmienn¹ zale¿n¹, "hp" jako zmienn¹ niezale¿n¹ i "am" jako zmienn¹ kategoryczn¹.
+
+input <- mtcars[,c("am","mpg","hp")]
+print(head(input))
+
+Tworzymy model regresji przyjmuj¹c "hp" jako zmienn¹ niezale¿n¹ i "mpg" jako zmienn¹ zale¿n¹ uwzglêdniaj¹c¹ interakcjê miêdzy "am" i "hp".
+
+# Tworzymy model relacji
+result <- aov(mpg~hp*am,data = input)
+print(summary(result))
+
+Wynik ten pokazuje, ¿e zarówno moc w KM, jak i rodzaj skrzyni biegów ma znacz¹cy wp³yw na mile na galon, poniewa¿ wartoœæ p w obu przypadkach jest mniejsza ni¿ 0,05. Jednak interakcja pomiêdzy tymi dwoma zmiennymi nie jest znacz¹ca, poniewa¿ wartoœæ p jest wiêksza ni¿ 0,05.
+
+Model bez interakcji pomiêdzy zmienn¹ kategoryczn¹ a zmienn¹ predykcyjn¹:
+
+# Pobieramy dane
+input <- mtcars
+
+# Tworzymy model relacji
+result <- aov(mpg~hp+am,data = input)
+print(summary(result))
+
+Wynik ten pokazuje, ¿e zarówno moc w KM, jak i rodzaj skrzyni biegów ma znacz¹cy wp³yw na mile na galon, poniewa¿ wartoœæ p w obu przypadkach jest mniejsza ni¿ 0,05.
+
+Porównianie dwóch modeli:
+Teraz mo¿emy porównaæ te dwa modele, aby stwierdziæ, czy interakcja zmiennych jest naprawdê nieistotna. Do tego celu u¿ywamy funkcji anova().
+
+# Pobieramy dane
+input <- mtcars
+
+# Postulujemy relacje
+result1 <- aov(mpg~hp*am,data = input)
+result2 <- aov(mpg~hp+am,data = input)
+
+# Porównujemy oba modele
+print(anova(result1,result2))
+
+Poniewa¿ wartoœæ p jest wiêksza od 0,05, stwierdzamy, ¿e interakcja pomiêdzy moc¹ w KM a rodzajem skrzyni biegów nie jest znacz¹ca. Tak wiêc przebieg na galon bêdzie zale¿a³ w podobny sposób od mocy w KM w samochodzie, zarówno w trybie automatycznej, jak i rêcznej skrzyni biegów.
+
+3. Regresja logistyczna.
+Regresja logistyczna jest modelem relacji, w którym zmienna zale¿na (odpowiedŸ) ma wartoœci kategoryczne takie jak True/False lub 0/1. W rzeczywistoœci mierzy ona prawdopodobieñstwo binarnej odpowiedzi jako wartoœæ zmiennej odpowiedzi opartej na równaniu matematycznym odnosz¹cym j¹ do zmiennych niezale¿nych.
+
+Ogólne równanie matematyczne dla regresji logistycznej to - y = 1/(1+e^-(a+b1x1+b2x2+b3x3+...))
+
+Regresjê logistyczn¹ wprowadzamy za pomoc¹ instrukcji glm(formula,data,family), gdzie formula to równanie opisuj¹ce relacjê, data to dane, family jest obiektem R, który okreœla szczegó³y modelu. Jego wartoœæ jest dwumianowa dla regresji logistycznej. 
+
+Wbudowany zestaw danych "mtcars" opisuje ró¿ne modele samochodu z ich ró¿nymi specyfikacjami silnika. W zestawie danych "mtcars" tryb pracy skrzyni biegów (automatyczny lub rêczny) jest opisany w kolumnie am, która jest wartoœci¹ binarn¹ (0 lub 1). Mo¿emy stworzyæ model regresji logistycznej pomiêdzy kolumnami "am" a 3 innymi kolumnami - hp, wt i cyl.
+
+# Wybieramy kolumny z mtcars
+input <- mtcars[,c("am","cyl","hp","wt")]
+
+print(head(input))
+
+#Tworzymy model za pomoc¹ glm()
+
+am.data = glm(formula = am ~ cyl + hp + wt, data = input, family = binomial)
+
+print(summary(am.data))
+
+Podsumowuj¹c, poniewa¿ wartoœæ p w ostatniej kolumnie jest wiêksza ni¿ 0,05 dla zmiennych "cyl" i "hp", uwa¿amy je za nieistotne w przyczynianiu siê do wartoœci zmiennej "am". Tylko waga (wt) wp³ywa na wartoœæ "am" w tym modelu regresji.
